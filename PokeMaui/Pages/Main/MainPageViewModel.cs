@@ -7,9 +7,16 @@ namespace PokeMaui.Pages.Main;
 
 public class MainPageViewModel : ViewModelBase
 {
-    private SourceCache<PokemonHeader, string> pokemonsCache = new(x => x.Name);
-    private readonly ReadOnlyObservableCollection<PokemonHeaderViewModel> pokemons;
-    public ReadOnlyObservableCollection<PokemonHeaderViewModel> Pokemons => pokemons;
+    private SourceCache<Pokemon, string> pokemonsCache = new(x => x.Name);
+    private readonly ReadOnlyObservableCollection<PokemonViewModel> pokemons;
+    public ReadOnlyObservableCollection<PokemonViewModel> Pokemons => pokemons;
+
+    private bool isLoading = false;
+    public bool IsLoading
+    {
+        get => isLoading;
+        private set => this.RaiseAndSetIfChanged(ref isLoading, value);
+    }
 
     public AsyncCommand Search { get; }
 
@@ -25,21 +32,34 @@ public class MainPageViewModel : ViewModelBase
         this.api = api;
         this.pokemonsCache
             .Connect()
-            .Transform(x => new PokemonHeaderViewModel(x))
+            .Transform(x => new PokemonViewModel(x))
             .ObserveOn(RxApp.MainThreadScheduler)
             .Bind(out this.pokemons)
             .Subscribe();
+
     }
 
-    private async Task ExecuteSearch()
+    private Task ExecuteSearch()
     {
-        if (!this.hasMore)
-            return;
+        return Task.Run(async () =>
+        {
+            if (!this.hasMore || IsLoading)
+                return;
+            IsLoading = true;
+            var paginatedList = await this.api.GetPokemons(pageSize, this.offset);
+            this.hasMore = paginatedList.Next != null;
+            this.offset += pageSize;
 
-        var paginatedList = await this.api.GetPokemons(pageSize, this.offset);
-        this.hasMore = paginatedList.Next != null;
-        this.offset += pageSize;
+            var tasks = new Task<Pokemon>[paginatedList.Results.Count];
+            for (int i = 0; i < paginatedList.Results.Count; i++)
+            {
+                tasks[i] = this.api.GetPokemonByName(paginatedList.Results[i].Name);
+            }
 
-        this.pokemonsCache.AddOrUpdate(paginatedList.Results );
+            var pokemons = await Task.WhenAll(tasks);
+
+            this.pokemonsCache.AddOrUpdate(pokemons);
+            IsLoading = false;
+        });
     }
 }

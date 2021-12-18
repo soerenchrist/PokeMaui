@@ -6,18 +6,53 @@
              x:DataType="local:MainPageViewModel">
 
     <Grid RowSpacing="25" 
-            RowDefinitions="*"
-            Padding="{OnPlatform iOS='30,60,30,30', Default='30'}">
+          RowDefinitions="Auto, *"
+          Padding="{OnPlatform iOS='30,60,30,30', Default='30'}">
+        <ActivityIndicator GridLayout.Row="0"
+                           HorizontalOptions="CenterAndExpand"
+                           IsRunning="{Binding IsLoading}"/>
         <CollectionView ItemsSource="{Binding Pokemons}"
                         RemainingItemsThresholdReachedCommand="{Binding Search}"
+                        GridLayout.Row="1"
                         Scrolled="CollectionViewScrolled"
                         RemainingItemsThreshold="5">
             <CollectionView.ItemsLayout>
-                <LinearItemsLayout Orientation="Vertical" />
+                <LinearItemsLayout Orientation="Vertical"
+                                   ItemSpacing="8"/>
             </CollectionView.ItemsLayout>
             <CollectionView.ItemTemplate>
-                <DataTemplate x:DataType="viewmodels:PokemonHeaderViewModel">
-                    <Label Text="{Binding Name}" />
+                <DataTemplate x:DataType="viewmodels:PokemonViewModel">
+                    <Grid ColumnDefinitions="60, *"
+                          ColumnSpacing="16"
+                          RowDefinitions="Auto, Auto">
+
+                        <BoxView BackgroundColor="#222222"
+                                 CornerRadius="30"
+                                 WidthRequest="60"
+                                 HeightRequest="60"
+                                 GridLayout.Column="0"
+                                 GridLayout.RowSpan="2"/>
+
+
+                        <Image GridLayout.Column="0"
+                               GridLayout.RowSpan="2"
+                               Aspect="AspectFit"
+                               VerticalOptions="Center">
+                            <Image.Source>
+                                <UriImageSource CacheValidity="10"
+                                                CachingEnabled="True"
+                                                Uri="{Binding Image}" />
+                            </Image.Source>
+                        </Image>
+                        <Label Text="{Binding Name}"
+                               GridLayout.Row="0"
+                               FontAttributes="Bold"
+                               GridLayout.Column="1"/>
+
+                        <Label Text="{Binding MainType}"
+                               GridLayout.Row="1"
+                               GridLayout.Column="1"/>
+                    </Grid>
                 </DataTemplate>
             </CollectionView.ItemTemplate>
         </CollectionView>
