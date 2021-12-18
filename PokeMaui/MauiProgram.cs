@@ -1,12 +1,9 @@
 ﻿using Microsoft.Maui.Hosting;
 using Microsoft.Maui.Controls.Hosting;
-using RestSharp;
 using Microsoft.Extensions.DependencyInjection;
-using PokeMaui.Services;
-using PokeMaui.ViewModels;
 using Refit;
-using System;
 using PokeMaui.Pages.Main;
+using Microsoft.Maui.Controls;
 
 namespace PokeMaui
 {
@@ -23,6 +20,7 @@ namespace PokeMaui
 				});
 
 			const string baseUrl = "https://pokeapi.co/api/v2/";
+
 			builder
 				.Services
 				.AddRefitClient<IPokemonApi>()

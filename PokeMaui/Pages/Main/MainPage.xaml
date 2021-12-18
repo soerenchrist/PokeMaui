@@ -5,15 +5,17 @@
              xmlns:local="clr-namespace:PokeMaui.Pages.Main"
              x:DataType="local:MainPageViewModel">
 
-    <Grid RowSpacing="25" 
+    <Grid RowSpacing="5" 
           RowDefinitions="Auto, *"
-          Padding="{OnPlatform iOS='30,60,30,30', Default='30'}">
+          Padding="16">
         <ActivityIndicator GridLayout.Row="0"
                            HorizontalOptions="CenterAndExpand"
                            IsRunning="{Binding IsLoading}"/>
         <CollectionView ItemsSource="{Binding Pokemons}"
                         RemainingItemsThresholdReachedCommand="{Binding Search}"
                         GridLayout.Row="1"
+                        SelectionMode="Single"
+                        SelectionChanged="CollectionViewSelectionChanged"
                         Scrolled="CollectionViewScrolled"
                         RemainingItemsThreshold="5">
             <CollectionView.ItemsLayout>
@@ -24,6 +26,8 @@
                 <DataTemplate x:DataType="viewmodels:PokemonViewModel">
                     <Grid ColumnDefinitions="60, *"
                           ColumnSpacing="16"
+                          HeightRequest="76"
+                          Padding="8"
                           RowDefinitions="Auto, Auto">
 
                         <BoxView BackgroundColor="#222222"
@@ -33,7 +37,6 @@
                                  GridLayout.Column="0"
                                  GridLayout.RowSpan="2"/>
 
-
                         <Image GridLayout.Column="0"
                                GridLayout.RowSpan="2"
                                Aspect="AspectFit"
@@ -41,7 +44,7 @@
                             <Image.Source>
                                 <UriImageSource CacheValidity="10"
                                                 CachingEnabled="True"
-                                                Uri="{Binding Image}" />
+                                                Uri="{Binding Front}" />
                             </Image.Source>
                         </Image>
                         <Label Text="{Binding Name}"

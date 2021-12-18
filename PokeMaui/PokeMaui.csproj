@@ -64,9 +64,18 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <Compile Update="Pages\Detail\PokemonDetailPage.xaml.cs">
+	    <DependentUpon>PokemonDetailPage.xaml</DependentUpon>
+	  </Compile>
 	  <Compile Update="Pages\Main\MainPage.xaml.cs">
 	    <DependentUpon>MainPage.xaml</DependentUpon>
 	  </Compile>
+	</ItemGroup>
+
+	<ItemGroup>
+	  <MauiXaml Update="Pages\Detail\PokemonDetailPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
 	</ItemGroup>
 
 	<PropertyGroup Condition="$(TargetFramework.Contains('-windows'))">

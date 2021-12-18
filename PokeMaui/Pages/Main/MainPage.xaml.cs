@@ -1,4 +1,5 @@
 ﻿using Microsoft.Maui.Controls;
+using PokeMaui.ViewModels;
 using System.Collections;
 
 namespace PokeMaui.Pages.Main;
@@ -19,6 +20,17 @@ public partial class MainPage : ContentPage
         base.OnAppearing();
         _ = this.viewModel.Search.ExecuteAsync();
     }
+
+    private void CollectionViewSelectionChanged(object sender, SelectionChangedEventArgs args)
+    {
+        if (!args.CurrentSelection.Any())
+            return;
+
+        var selection = args.CurrentSelection[0];
+        if (selection is PokemonViewModel vm)
+            Navigation.PushAsync(new PokemonDetailPage(vm));
+    }
+
     private void CollectionViewScrolled(object sender, ItemsViewScrolledEventArgs e)
     {
         if (Device.RuntimePlatform != Device.UWP)

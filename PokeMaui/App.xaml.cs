@@ -1,4 +1,5 @@
-﻿using PokeMaui.Pages.Main;
+﻿using Microsoft.Maui.Controls;
+using PokeMaui.Pages.Main;
 using Application = Microsoft.Maui.Controls.Application;
 
 namespace PokeMaui
@@ -9,7 +10,8 @@ namespace PokeMaui
 		{
 			InitializeComponent();
 
-			MainPage = page;
+			var nav = new NavigationPage(page);
+			MainPage = nav;
 		}
 	}
 }
