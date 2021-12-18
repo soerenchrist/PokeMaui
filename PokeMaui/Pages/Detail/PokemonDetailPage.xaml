@@ -1,47 +1,54 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="PokeMaui.Pages.Main.PokemonDetailPage"
-             xmlns:local="clr-namespace:PokeMaui.Pages.Main"
              xmlns:viewmodels="clr-namespace:PokeMaui.ViewModels"
              x:DataType="viewmodels:PokemonViewModel"
              Title="{Binding Name}">
 
     <Grid RowSpacing="5" 
+          ColumnDefinitions="80, *"
           RowDefinitions="Auto, *"
-          ColumnDefinitions="Auto, *"
           Padding="16">
-        <Grid GridLayout.Column="0"
-              GridLayout.Row="0"
-              RowDefinitions="Auto, Auto"
-              Padding="0"
-              RowSpacing="2">
 
-            <Image WidthRequest="80"
-                   HeightRequest="80"
-                   Aspect="AspectFit"
-                   VerticalOptions="Center">
-                <Image.Source>
-                    <UriImageSource CacheValidity="10"
-                                    CachingEnabled="True"
-                                    Uri="{Binding Front}" />
-                </Image.Source>
-            </Image>
+        <Image WidthRequest="80"
+               HeightRequest="80"
+               GridLayout.Row="0"
+               GridLayout.Column="0"
+               Aspect="AspectFit"
+               VerticalOptions="Start">
+            <Image.Source>
+                <UriImageSource CacheValidity="10"
+                                CachingEnabled="True"
+                                Uri="{Binding Front}" />
+            </Image.Source>
+        </Image>
+        <StackLayout Orientation="Horizontal"
+                     BindableLayout.ItemsSource="{Binding Types}"
+                     GridLayout.Column="1"
+                     GridLayout.Row="0">
+            <BindableLayout.ItemTemplate>
+                <DataTemplate x:DataType="x:String">
+                    <Grid VerticalOptions="Start"
+                                          HeightRequest="25"
+                                          Margin="0,4,4,0">
+                        <BoxView BackgroundColor="{Binding ., Converter={StaticResource TypeToColorConverter}}"
+                                 CornerRadius="4"/>
+                        <Label Text="{Binding .}"
+                               Margin="2"/>
+                    </Grid>
+                </DataTemplate>
+            </BindableLayout.ItemTemplate>
+        </StackLayout>
 
-            <Image WidthRequest="80"
-                   HeightRequest="80"
-                   GridLayout.Row="1"
-                   Aspect="AspectFit"
-                   VerticalOptions="Center">
-                <Image.Source>
-                    <UriImageSource CacheValidity="10"
-                                    CachingEnabled="True"
-                                    Uri="{Binding Back}" />
-                </Image.Source>
-            </Image>
-        </Grid>
-        <Label FontSize="Large"
-               Text="{Binding Name}"
-               GridLayout.Column="1"
-               GridLayout.Row="0"/>
+        <StackLayout GridLayout.Row="1"
+                     GridLayout.Column="1">
+            <Label Text="Attacks"
+                    FontSize="Large" />
+
+            
+            
+        </StackLayout>
+
+        
     </Grid>
 </ContentPage>

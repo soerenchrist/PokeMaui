@@ -3,8 +3,8 @@
              x:Class="PokeMaui.Pages.Main.MainPage"
              xmlns:viewmodels="clr-namespace:PokeMaui.ViewModels"
              xmlns:local="clr-namespace:PokeMaui.Pages.Main"
+             xmlns:converter="clr-namespace:PokeMaui.Converters"
              x:DataType="local:MainPageViewModel">
-
     <Grid RowSpacing="5" 
           RowDefinitions="Auto, *"
           Padding="16">
@@ -52,9 +52,24 @@
                                FontAttributes="Bold"
                                GridLayout.Column="1"/>
 
-                        <Label Text="{Binding MainType}"
-                               GridLayout.Row="1"
-                               GridLayout.Column="1"/>
+                        <StackLayout Orientation="Horizontal"
+                                     BindableLayout.ItemsSource="{Binding Types}"
+                                     GridLayout.Column="1"
+                                     GridLayout.Row="1"
+                                     VerticalOptions="Start">
+                            <BindableLayout.ItemTemplate>
+                                <DataTemplate x:DataType="x:String">
+                                    <Grid VerticalOptions="Start"
+                                          HeightRequest="25"
+                                          Margin="0,4,4,0">
+                                        <BoxView BackgroundColor="{Binding ., Converter={StaticResource TypeToColorConverter}}"
+                                                 CornerRadius="4"/>
+                                        <Label Text="{Binding .}"
+                                               Margin="2"/>
+                                    </Grid>
+                                </DataTemplate>
+                            </BindableLayout.ItemTemplate>
+                        </StackLayout>
                     </Grid>
                 </DataTemplate>
             </CollectionView.ItemTemplate>

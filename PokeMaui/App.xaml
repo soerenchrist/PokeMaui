@@ -2,12 +2,15 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:windows="clr-namespace:Microsoft.Maui.Controls.PlatformConfiguration.WindowsSpecific;assembly=Microsoft.Maui.Controls"
              x:Class="PokeMaui.App"
+             xmlns:converter="clr-namespace:PokeMaui.Converters"
              windows:Application.ImageDirectory="Assets">
     <Application.Resources>
         <ResourceDictionary>
 
             <Color x:Key="PrimaryColor">#512bdf</Color>
             <Color x:Key="SecondaryColor">White</Color>
+            
+            <converter:TypeToColorConverter x:Key="TypeToColorConverter"/>
 
         </ResourceDictionary>
     </Application.Resources>

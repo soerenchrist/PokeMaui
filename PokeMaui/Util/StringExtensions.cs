@@ -1,4 +1,6 @@
-﻿namespace PokeMaui.Util;
+﻿using System.Drawing;
+
+namespace PokeMaui.Util;
 
 public static class StringExtensions
 {
