@@ -1,7 +1,5 @@
-﻿using Prism.Mvvm;
+﻿namespace PokeMaui.ViewModels;
 
-namespace PokeMaui.ViewModels;
-
-public class ViewModelBase : BindableBase
+public class ViewModelBase : ReactiveObject
 {
 }

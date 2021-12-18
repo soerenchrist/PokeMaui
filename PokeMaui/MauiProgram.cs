@@ -4,6 +4,9 @@ using RestSharp;
 using Microsoft.Extensions.DependencyInjection;
 using PokeMaui.Services;
 using PokeMaui.ViewModels;
+using Refit;
+using System;
+using PokeMaui.Pages.Main;
 
 namespace PokeMaui
 {
@@ -20,9 +23,10 @@ namespace PokeMaui
 				});
 
 			const string baseUrl = "https://pokeapi.co/api/v2/";
-			var restClient = new RestClient(baseUrl);
-			builder.Services.AddSingleton<IRestClient>(restClient);
-			builder.Services.AddSingleton<IPokemonApi, PokemonApi>();
+			builder
+				.Services
+				.AddRefitClient<IPokemonApi>()
+				.ConfigureHttpClient(c => c.BaseAddress = new Uri(baseUrl));
 
 			builder.Services.AddSingleton<MainPage>();
 			builder.Services.AddSingleton<MainPageViewModel>();

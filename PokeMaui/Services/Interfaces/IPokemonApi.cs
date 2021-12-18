@@ -1,6 +1,12 @@
-﻿namespace PokeMaui.Services.Interfaces;
+﻿using Refit;
+
+namespace PokeMaui.Services.Interfaces;
 
 public interface IPokemonApi
 {
-    Task<Pokemon> GetPokemonByName(string name);
+    [Get("/pokemon/{name}")]
+    Task<PokemonHeader> GetPokemonByName(string name);
+
+    [Get("/pokemon?limit={limit}&offset={offset}")]
+    Task<PaginatedList<PokemonHeader>> GetPokemons(int limit, int offset);
 }

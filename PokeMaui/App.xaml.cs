@@ -1,4 +1,5 @@
-﻿using Application = Microsoft.Maui.Controls.Application;
+﻿using PokeMaui.Pages.Main;
+using Application = Microsoft.Maui.Controls.Application;
 
 namespace PokeMaui
 {

@@ -1,0 +1,25 @@
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="PokeMaui.Pages.Main.MainPage"
+             xmlns:viewmodels="clr-namespace:PokeMaui.ViewModels"
+             xmlns:local="clr-namespace:PokeMaui.Pages.Main"
+             x:DataType="local:MainPageViewModel">
+
+    <Grid RowSpacing="25" 
+            RowDefinitions="*"
+            Padding="{OnPlatform iOS='30,60,30,30', Default='30'}">
+        <CollectionView ItemsSource="{Binding Pokemons}"
+                        RemainingItemsThresholdReachedCommand="{Binding Search}"
+                        Scrolled="CollectionViewScrolled"
+                        RemainingItemsThreshold="5">
+            <CollectionView.ItemsLayout>
+                <LinearItemsLayout Orientation="Vertical" />
+            </CollectionView.ItemsLayout>
+            <CollectionView.ItemTemplate>
+                <DataTemplate x:DataType="viewmodels:PokemonHeaderViewModel">
+                    <Label Text="{Binding Name}" />
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+    </Grid>
+</ContentPage>
